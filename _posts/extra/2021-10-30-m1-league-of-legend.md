@@ -45,6 +45,3 @@ categories: [Extra, LOL]
 - 게임하려고 맥북사는 사람들은 없겠지만 롤하려고 맥북은 사도 될지도...?
 
 <br>
-
-참고 : [Mac on Metal Beta Testing](![](https://devtrackers.gg/leagueoflegends/p/c1948cdc-mac-on-metal-beta-testing)
-)
