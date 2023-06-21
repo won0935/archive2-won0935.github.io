@@ -5,7 +5,7 @@ categories: [Spring, Core]
 ---
 
 
-# [Spring] JDK Dynamic Proxy VS CGLIB - 재원
+# JDK Dynamic Proxy VS CGLIB - 재원
 
 # IoC 컨테이너와 AOP Proxy의 관계
 

@@ -4,7 +4,7 @@ date: '2022-10-15'
 categories: [Spring, Core]
 ---
 
-# ****@Configuration이란****
+# @Configuration이란
 
 `@Configuration` 어노테이션 안에는 `@Component` 어노테이션이 붙어있어서 `@Configuration`이 붙어있는 클래스 역시 스프링의 빈으로 등록이 된다.
 
