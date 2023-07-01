@@ -14,8 +14,6 @@ categories: [Extra, LOL]
 - macbook air m1(2020) 8g 256gb (깡통 맥북에어 옵션)
 - qhd 165hz 외장모니터
 
-<br>
-
 
 ## 방법
 
@@ -23,7 +21,6 @@ categories: [Extra, LOL]
 
    ![](https://user-images.githubusercontent.com/55419159/139523689-d613a586-55f2-426c-9e10-09e776c04450.png)
 
-<br>
 
 ### 2. 아래의 경로로 들어감
 - LoL/Config/game.cfg
@@ -31,7 +28,6 @@ categories: [Extra, LOL]
 
 ![](https://user-images.githubusercontent.com/55419159/139523809-a896357e-4c3b-413a-8474-6fc4ec9ecca4.png)
 
-<br>
 
 ### 3. [General] 마지막 항목에 "MetalBetaTest=true" 추가
 
