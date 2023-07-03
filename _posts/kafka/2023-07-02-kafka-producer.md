@@ -340,7 +340,7 @@ producer.send(record, DemoProducerCallback()) // 3
     4. 결국 중복 저장이 가능
   3. `enable.idempotence` 설정을 `true` 로 잡는 것은 바로 이러한 사태를 방지하기 때문
      1. 위 기능이 활성화되면 프로듀서는 레코드를 보낼 때마다 순차적인 **번호를 붙여서 보냄**
-     2. 브로커가 동일한 번호를 가진 레코드를 2개 이상 받을 경우 하나만 저장
+     2. 브로커가 동일한 번호를 가진 레코드를 2개 이상 받을 경우 하나만 저장 
      3. 프로듀서는 별다른 문제를 발생시키지않는 `DupulicateSequenceException` 을 받음
   4. 위 기능을 설정하려면 이하로 설정해야 함 (아닐 경우 `ConfigException` 발생)
      1. `max.in.flight.requests.per.connection` ≤ 5
