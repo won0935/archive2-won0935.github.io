@@ -19,7 +19,7 @@ categories: [Extra, LOL]
 
 ### 1. finder - '응용 프로그램' - '리그오브레전드' 오른쪽클릭 '패키지 내용보기'
 
-   ![](https://user-images.githubusercontent.com/55419159/139523689-d613a586-55f2-426c-9e10-09e776c04450.png)
+![](https://user-images.githubusercontent.com/55419159/139523689-d613a586-55f2-426c-9e10-09e776c04450.png)
 
 
 ### 2. 아래의 경로로 들어감
