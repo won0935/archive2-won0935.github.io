@@ -1,19 +1,18 @@
 ---
 title: "ObjectMapper MismatchedInputException 발생시 해결방법"
 date: '2022-01-19'
-categories: [Java, Util]
+categories: [ Java, Util ]
 ---
-
 
 ## 상황
 
 `String` 값으로 들어온 json String을 `Object`로 변환하려함
 
 ```java
-public void convertTest(String jsonStr) {
-        TestReqeust obj = new ObjectMapper().readValue(jsonStr, new TypeReference<TestReqeust>() {
-        });
-}
+public void convertTest(String jsonStr){
+  TestReqeust obj=new ObjectMapper().readValue(jsonStr,new TypeReference<TestReqeust>(){
+  });
+  }
 ```
 
 ## 오류
