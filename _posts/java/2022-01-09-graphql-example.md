@@ -1,11 +1,10 @@
 ---
 title: "graphql 라이브러리 spqr 를 이용한 GraphQL 실습해보기"
 date: '2022-01-09'
-categories: [Java, GraphQL]
+categories: [ Java, GraphQL ]
 ---
 
 > 회사에서 백오피스를 구축해야 하는데, 여러면에 있어 `graphQL`를 적용시키면 좋을 것 같아 학습해보았다.
-
 
 ## 👾 GraphQL 이란
 
@@ -14,18 +13,17 @@ categories: [Java, GraphQL]
 
 ![image](https://user-images.githubusercontent.com/55419159/148671417-a7a7db95-e44c-4f9c-8723-4d5248bcdc67.png)
 
-
 - 클라이언트에서 작성하는 쿼리의 예시이다.
 
 ```graphql
 query {
-    book(id: "1") {
-        title
-        author {
-            firstName
-            lastName
-        }
+  book(id: "1") {
+    title
+    author {
+      firstName
+      lastName
     }
+  }
 }
 ```
 
@@ -33,11 +31,11 @@ query {
 
 ```json
 {
-	"title": "Harry Porter ",
-	"author": {
-		"firstName": "J.K",
-		"lastName": "Rowling"
-	}
+  "title": "Harry Porter ",
+  "author": {
+    "firstName": "J.K",
+    "lastName": "Rowling"
+  }
 }
 ```
 
@@ -71,6 +69,7 @@ query {
 ### 1. DB 스키마 설계
 
 테이블 구조는 아래와 같다.
+
 - `상품정보` 테이블
 - `상품에 대한 태그` 테이블
 
@@ -81,34 +80,35 @@ query {
 일반적인 Rest 구조로 되어있다.
 
 ```java
+
 @RestController
 public class LoanController {
 
-    private final LoanService loanService;
+  private final LoanService loanService;
 
-    public LoanController(LoanService loanService) {
-        this.loanService = loanService;
-    }
+  public LoanController(LoanService loanService) {
+    this.loanService = loanService;
+  }
 
-    @GetMapping("/loans")
-    public List<LoanModel> loans() {
-        return loanService.getLoans();
-    }
+  @GetMapping("/loans")
+  public List<LoanModel> loans() {
+    return loanService.getLoans();
+  }
 
-    @GetMapping("/loan/{id}")
-    public LoanModel getLoanById(@PathVariable Long id) {
-        return loanService.getLoanById(id);
-    }
+  @GetMapping("/loan/{id}")
+  public LoanModel getLoanById(@PathVariable Long id) {
+    return loanService.getLoanById(id);
+  }
 
-    @PostMapping("/loan")
-    public LoanModel saveLoan(@RequestBody LoanModel post) {
-        return loanService.saveLoan(post);
-    }
+  @PostMapping("/loan")
+  public LoanModel saveLoan(@RequestBody LoanModel post) {
+    return loanService.saveLoan(post);
+  }
 
-    @PostMapping("/delete-loan")
-    public void deleteLoan(Long id) {
-        loanService.deleteLoan(id);
-    }
+  @PostMapping("/delete-loan")
+  public void deleteLoan(Long id) {
+    loanService.deleteLoan(id);
+  }
 
 }
 ```
@@ -120,6 +120,7 @@ public class LoanController {
 이번에는 `GraphQL(spqr)`로 요청을 받아 ReceiverProject로 보내는 서비스를 만든다.
 
 - `spqr` 이란
+
 > 스키마를 정의하여 매핑하는 방식이 아닌 어노테이션을 사용하여 매핑을 해주는 방식이다.
 > 따로 스키마와 resolver를 구현하지 않아도 GraphQL을 사용할 수 있어 편리하다는 장점이 있지만
 > 단점으로 Multipart 를 이용한 파일 업로드 구현이 어렵다는 점이 있다.
@@ -134,25 +135,25 @@ public class LoanController {
 @RequiredArgsConstructor
 public class LoanService {
 
-    private final TestClient testClient;
+  private final TestClient testClient;
 
-    @GraphQLQuery(name = "loans")
-    public List<LoanModel> getLoans() {
-        return testClient.loans();
-    }
+  @GraphQLQuery(name = "loans")
+  public List<LoanModel> getLoans() {
+    return testClient.loans();
+  }
 
-//    {
+  //    {
 //    	post(id:1){
 //    		id
 //    		title
 //    	}
 //    }
-    @GraphQLQuery(name = "loan")
-    public LoanModel getLoanById(Long id) {
-        return testClient.getLoanById(id);
-    }
+  @GraphQLQuery(name = "loan")
+  public LoanModel getLoanById(Long id) {
+    return testClient.getLoanById(id);
+  }
 
-//    mutation{
+  //    mutation{
 //        saveLoan(post:
 //        {
 //            id: 343
@@ -173,18 +174,18 @@ public class LoanService {
 //            ]
 //        })
 //    }
-    @GraphQLMutation(name = "saveLoan")
-    public LoanModel saveLoan(LoanModel post) {
-        return testClient.saveLoan(post);
-    }
+  @GraphQLMutation(name = "saveLoan")
+  public LoanModel saveLoan(LoanModel post) {
+    return testClient.saveLoan(post);
+  }
 
-//    mutation{
+  //    mutation{
 //    	deletePost(id:1)
 //    }
-    @GraphQLMutation(name = "deleteLoan")
-    public void deleteLoan(Long id) {
-        testClient.deleteLoan(id);
-    }
+  @GraphQLMutation(name = "deleteLoan")
+  public void deleteLoan(Long id) {
+    testClient.deleteLoan(id);
+  }
 
 }
 ```
@@ -194,20 +195,21 @@ public class LoanService {
 graphQL 로 클라이언트에서 받는 요청을 ReceiverProject(8070)에 보낸다.
 
 ```java
+
 @FeignClient(name = "feign", url = "http://localhost:8070")
 public interface TestClient {
 
-    @GetMapping("/loans")
-    List<LoanModel> loans();
+  @GetMapping("/loans")
+  List<LoanModel> loans();
 
-    @GetMapping("/loan/{id}")
-    LoanModel getLoanById(@PathVariable Long id);
+  @GetMapping("/loan/{id}")
+  LoanModel getLoanById(@PathVariable Long id);
 
-    @PostMapping("/loan")
-    LoanModel saveLoan(LoanModel post);
+  @PostMapping("/loan")
+  LoanModel saveLoan(LoanModel post);
 
-    @PostMapping("/delete-loan")
-    void deleteLoan(Long id);
+  @PostMapping("/delete-loan")
+  void deleteLoan(Long id);
 }
 ```
 
