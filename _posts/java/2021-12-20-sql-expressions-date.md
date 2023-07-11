@@ -1,9 +1,8 @@
 ---
 title: "QueryDSL 에서 mySQL date() 함수 사용"
 date: '2021-12-20'
-categories: [Java, QueryDSL]
+categories: [ Java, QueryDSL ]
 ---
-
 
 - `SQLExpressions.date()` 을 사용하면 된다.
 

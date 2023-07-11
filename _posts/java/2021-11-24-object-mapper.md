@@ -1,10 +1,8 @@
 ---
 title: "ObjectMapper"
 date: '2021-11-24'
-categories: [Java, Util]
+categories: [ Java, Util ]
 ---
-
-
 
 # Jackson ObjectMapper
 
