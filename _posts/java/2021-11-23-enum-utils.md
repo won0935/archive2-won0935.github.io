@@ -1,9 +1,8 @@
 ---
 title: "EnumUtils"
 date: '2021-11-23'
-categories: [Java, Util]
+categories: [ Java, Util ]
 ---
-
 
 # EnumUtils
 
@@ -14,8 +13,8 @@ categories: [Java, Util]
 
 ```java
 public class EnumUtils extends org.apache.commons.lang.enums.EnumUtils {
-    public static <E extends Enum> E defaultIfEmpty(E value, E defalutValue) {
-        return vlaue == null ? defaultValue : value;
-    }
+  public static <E extends Enum> E defaultIfEmpty(E value, E defalutValue) {
+    return vlaue == null ? defaultValue : value;
+  }
 }
 ```
