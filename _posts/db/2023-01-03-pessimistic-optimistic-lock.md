@@ -13,13 +13,13 @@ categories: [DB, Lock]
 ## 동시성 이슈를 해결하는 방법
 
 1. **소스코드**
-    - `syncronized` 명령어
+  - `syncronized` 명령어
 2. **데이터베이스**
-    - Pessimistic Lock(비관적 락)
-    - Optimisitic Lock(낙관적 락)
+  - Pessimistic Lock(비관적 락)
+  - Optimisitic Lock(낙관적 락)
 3. **레디스(Redis)**
-    - `Lettuce`
-    - `Redisson`
+  - `Lettuce`
+  - `Redisson`
 
 ---
 
@@ -31,11 +31,11 @@ categories: [DB, Lock]
 
 ```kotlin
  fun decrease(id: Long, quantity: Long) {
-    synchronized(this) { //스레드를 하나만 사용
-        val stock = stockRepository.findByIdOrNull(id) ?: throw EntityNotFoundException()
-        stock.decrease(quantity)
-        stockRepository.saveAndFlush(stock)
-    }
+  synchronized(this) { //스레드를 하나만 사용
+    val stock = stockRepository.findByIdOrNull(id) ?: throw EntityNotFoundException()
+    stock.decrease(quantity)
+    stockRepository.saveAndFlush(stock)
+  }
 }
 ```
 
@@ -68,7 +68,7 @@ fun findByIdWithPessimisticLock(id: Long): Stock
 
 - `PESSIMISTIC_WRITE`
   - 일반적인 옵션. 데이터베이스에 쓰기 락
-  - 다른 트랜잭션에서 **읽기도 쓰기도 못함** (배타적 잠금), 
+  - 다른 트랜잭션에서 **읽기도 쓰기도 못함** (배타적 잠금),
   - `SELECT FOR ~ UPDATE` 로 쿼리가 나감
 - `PESSIMISTIC_READ`
   - 반복 읽기만하고 수정하지 않는 용도로 락을 걸 때 사용
@@ -87,11 +87,11 @@ fun findByIdWithOptimisticLock(id: Long): Stock
 ```kotlin
 @Entity
 class Stock(
-    val id: Long = 0L,
-    /* 생략 */
+  val id: Long = 0L,
+  /* 생략 */
 
-    @Version //긍정락
-    val version: Long = 0L,
+  @Version //긍정락
+  val version: Long = 0L,
 ) 
 ```
 
@@ -112,52 +112,52 @@ class Stock(
 ## Lettuce
 
 - `setnx` 명령어를 활용해 분산락 구현
-- **스핀락** 방식 
+- **스핀락** 방식
 
 #### 코드
 
 ```kotlin
 @Component
 class RedisLockRepository(
-    private val redisTemplate: RedisTemplate<String, String>
+  private val redisTemplate: RedisTemplate<String, String>
 ) {
 
-    fun lock(key: Long): Boolean {
-        return redisTemplate
-            .opsForValue()
-            .setIfAbsent(generateKey(key), "lock", Duration.ofMillis(3_000))
-            ?: throw RedisException("")
-    }
+  fun lock(key: Long): Boolean {
+    return redisTemplate
+      .opsForValue()
+      .setIfAbsent(generateKey(key), "lock", Duration.ofMillis(3_000))
+      ?: throw RedisException("")
+  }
 
-    fun unlock(key: Long) {
-        redisTemplate.delete(generateKey(key))
-    }
+  fun unlock(key: Long) {
+    redisTemplate.delete(generateKey(key))
+  }
 
-    fun generateKey(key: Long): String {
-        return key.toString()
-    }
+  fun generateKey(key: Long): String {
+    return key.toString()
+  }
 }
 ```
 ```kotlin
 @Component
 class LettuceLockStockFacade(
-    private val redisLockRepository: RedisLockRepository,
-    private val stockService: StockService
+  private val redisLockRepository: RedisLockRepository,
+  private val stockService: StockService
 ) {
 
-    @Transactional
-    fun decrease(id: Long, quantity: Long) {
+  @Transactional
+  fun decrease(id: Long, quantity: Long) {
 
-        while (!redisLockRepository.lock(id)){
-            Thread.sleep(100)  //락잡음
-        }
-
-        try {
-            stockService.decrease(id, quantity)
-        } finally {
-            redisLockRepository.unlock(id) //락품
-        }
+    while (!redisLockRepository.lock(id)){
+      Thread.sleep(100)  //락잡음
     }
+
+    try {
+      stockService.decrease(id, quantity)
+    } finally {
+      redisLockRepository.unlock(id) //락품
+    }
+  }
 }
 ```
 
@@ -174,30 +174,30 @@ implementation("org.redisson:redisson:3.19.0") //redisson 라이브러리 추가
 ```kotlin
 @Component
 class RedissonLockStockFacade(
-    private val redissonClient: RedissonClient,
-    private val stockService: StockService
+  private val redissonClient: RedissonClient,
+  private val stockService: StockService
 ) {
 
-    fun decrease(id : Long, quantity: Long)
-    {
-        val lock = redissonClient.getLock(id.toString()) //락잡음
+  fun decrease(id : Long, quantity: Long)
+  {
+    val lock = redissonClient.getLock(id.toString()) //락잡음
 
-        try {
-            val available = lock.tryLock(5, 1, TimeUnit.SECONDS)
+    try {
+      val available = lock.tryLock(5, 1, TimeUnit.SECONDS)
 
-            if(!available){
-                println("락 획득 실패")
-                return
-            }
+      if(!available){
+        println("락 획득 실패")
+        return
+      }
 
-            stockService.decrease(id, quantity)
-        } catch (e : InterruptedException){
-            throw RuntimeException()
-        } finally {
-            lock.unlock() //락품
-        }
-
+      stockService.decrease(id, quantity)
+    } catch (e : InterruptedException){
+      throw RuntimeException()
+    } finally {
+      lock.unlock() //락품
     }
+
+  }
 }
 ```
 
