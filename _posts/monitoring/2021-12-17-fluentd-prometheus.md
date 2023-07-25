@@ -1,13 +1,13 @@
 ---
 title: "Fluentd 를 Prometheus 로 모니터링 하기"
 date: '2021-12-17'
-categories: [Monitoring]
-tags: [Fluentd, Prometheus]
+categories: [ Monitoring ]
+tags: [ Fluentd, Prometheus ]
 ---
 
-
 ## ⛳ 들어가기 전에..
-- fluentd는 td-agent 를 사용 
+
+- fluentd는 td-agent 를 사용
 
 ## 📌 Prometheus
 
