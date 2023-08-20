@@ -1,7 +1,7 @@
 ---
 title: "데코레이터 패턴"
 date: '2021-11-13'
-categories: [설계, 다자인패턴]
+categories: [ 설계, 다자인패턴 ]
 ---
 
 ## 🎁 데코레이터 패턴이란
@@ -14,15 +14,15 @@ categories: [설계, 다자인패턴]
 ![image](https://user-images.githubusercontent.com/55419159/141609476-9786bc6c-9a46-45d3-b2ad-63c6678abc0e.png)
 
 - `ConcreteComponent`에 **새로운 행동을 동적으로 추가**할 수 있다.
-각 데코레이터 안에는 구성요소(Component)에 대란 레퍼런스가 들어있는 인스턴스 변수가있다.
+  각 데코레이터 안에는 구성요소(Component)에 대란 레퍼런스가 들어있는 인스턴스 변수가있다.
 
 - `Decorator`는 자신이 장식할 구성요소(Component)와 같은 인터페이스 또는 **추상 클래스를 구현**한다.
 
-- `ConcreteDecoratorA`, `ConcreteDecoratorB` 에는 그 객체가 장식하고있는(데코레이터가 감싸고 있는 Component객체)을 위한 인스턴스 변수가 있다. 
-따라서 데코레이터는 `Component`의 **상태를 확장**할 수 있다.
+- `ConcreteDecoratorA`, `ConcreteDecoratorB` 에는 그 객체가 장식하고있는(데코레이터가 감싸고 있는 Component객체)을 위한 인스턴스 변수가 있다.
+  따라서 데코레이터는 `Component`의 **상태를 확장**할 수 있다.
 
-- `ConcreteDecoratorA`, `ConcreteDecoratorB` 데코레이터에서 **새로운 메소드를 추가**할 수도 있다. 
-하지만 일반적으로 새로운 메소드를 추가하는 대신 `Component`에 원래 있던 메소드를 호출하기 전, 또는 후에 **별도의 작업을 처리하는 방식**으로 새로운 기능을 추가한다.
+- `ConcreteDecoratorA`, `ConcreteDecoratorB` 데코레이터에서 **새로운 메소드를 추가**할 수도 있다.
+  하지만 일반적으로 새로운 메소드를 추가하는 대신 `Component`에 원래 있던 메소드를 호출하기 전, 또는 후에 **별도의 작업을 처리하는 방식**으로 새로운 기능을 추가한다.
 
 ---
 
@@ -46,19 +46,18 @@ categories: [설계, 다자인패턴]
 
 ![image](https://user-images.githubusercontent.com/55419159/141609675-00fe88e7-909c-4349-9dc8-88f3eeca5d05.png)
 
-
 #### `Beverage` 추상클래스 구현
 
 ```java
 public abstract class Beverage {
 
-    private String description = "Empty";
+  private String description = "Empty";
 
-    public String getDescription() {
-        return this.description;
-    }
+  public String getDescription() {
+    return this.description;
+  }
 
-    public abstract int cost();
+  public abstract int cost();
 }
 ```
 
@@ -66,9 +65,9 @@ public abstract class Beverage {
 
 ```java
 public abstract class CondimentDecorator extends Beverage {
-    
-    public abstract String getDescription();
-    
+
+  public abstract String getDescription();
+
 }
 ```
 
@@ -77,50 +76,49 @@ public abstract class CondimentDecorator extends Beverage {
 ```java
 public class Espresso extends Beverage {
 
-    public Espresso() {
-        this.description = "에스프레소";
-    }
+  public Espresso() {
+    this.description = "에스프레소";
+  }
 
-    @Override
-    public int cost() {
-        return 3500;
-    }
+  @Override
+  public int cost() {
+    return 3500;
+  }
 }
 
 public class HouseBlend extends Beverage {
 
-    public HouseBlend() {
-        this.description = "하우스블렌드";
-    }
+  public HouseBlend() {
+    this.description = "하우스블렌드";
+  }
 
-    @Override
-    public int cost() {
-        return 2000;
-    }
+  @Override
+  public int cost() {
+    return 2000;
+  }
 }
 ```
-
 
 #### `CondimentDecorator` 를 활용해 꾸며진 객체 구현
 
 ```java
 public class Mocha extends CondimentDecorator {
 
-    private Beverage beverage;
+  private Beverage beverage;
 
-    public Mocha(Beverage beverage) {
-        this.beverage = beverage;
-    }
+  public Mocha(Beverage beverage) {
+    this.beverage = beverage;
+  }
 
-    @Override
-    public String getDescription() {
-        return beverage.getDescription() + ", 모카";
-    }
+  @Override
+  public String getDescription() {
+    return beverage.getDescription() + ", 모카";
+  }
 
-    @Override
-    public int cost() {
-        return 500 + beverage.cost();
-    }
+  @Override
+  public int cost() {
+    return 500 + beverage.cost();
+  }
 }
 ```
 
@@ -129,22 +127,22 @@ public class Mocha extends CondimentDecorator {
 ```java
 public class CoffeeStore {
 
-    public static void main(String args[]) {
-        Beverage beverage = new Espresso();
-        System.out.println(beverage.getDescription() + " cost : " + beverage.cost());
+  public static void main(String args[]) {
+    Beverage beverage = new Espresso();
+    System.out.println(beverage.getDescription() + " cost : " + beverage.cost());
 
-        Beverage beverage1 = new DarkRoast();
-        beverage1 = new Mocha(beverage1);
-        beverage1 = new Mocha(beverage1);
-        beverage1 = new Whip(beverage1);
-        System.out.println(beverage1.getDescription() + " cost : " + beverage1.cost());
+    Beverage beverage1 = new DarkRoast();
+    beverage1 = new Mocha(beverage1);
+    beverage1 = new Mocha(beverage1);
+    beverage1 = new Whip(beverage1);
+    System.out.println(beverage1.getDescription() + " cost : " + beverage1.cost());
 
-        Beverage beverage2 = new HouseBlend();
-        beverage2 = new Soy(beverage2);
-        beverage2 = new Mocha(beverage2);
-        beverage2 = new Whip(beverage2);
-        System.out.println(beverage2.getDescription() + " cost : " + beverage2.cost());
-    }
+    Beverage beverage2 = new HouseBlend();
+    beverage2 = new Soy(beverage2);
+    beverage2 = new Mocha(beverage2);
+    beverage2 = new Whip(beverage2);
+    System.out.println(beverage2.getDescription() + " cost : " + beverage2.cost());
+  }
 }
 ```
 
@@ -157,13 +155,13 @@ public class CoffeeStore {
 
 ## 데코레이터가 적용된 예 : 자바 I/O
 
-개발하면서 스트림의 개념이 잘 잡히지 않았을때.. 자바 I/O API를 보고 한숨을 쉬는 사람들이 나말고도 많았을 거라 생각한다. 
+개발하면서 스트림의 개념이 잘 잡히지 않았을때.. 자바 I/O API를 보고 한숨을 쉬는 사람들이 나말고도 많았을 거라 생각한다.
 기반스트림과 보조스트림을 데코레이터 패턴을 배우고 나서 머리속에서 다시 정리해보면 많은 클래스들이 좀더 친근하게 다가 온다.
 
 실제 자바에서 클래스 다이어그램을 그려보면
 
 ![image](https://user-images.githubusercontent.com/55419159/141609807-708dd839-da97-46a2-832b-2c82ecc82bd4.png)
 
-`InputStream` 이 추상구성요소이고 모든 보조스트림의 조상인 `FilterInputStream` 이 추상 데코레이터 이다. 
-`FilterInputStream`을 상속받아 구현하는 `BufferedInputStream` 클래스들이 구상 데코레이터이다. 
+`InputStream` 이 추상구성요소이고 모든 보조스트림의 조상인 `FilterInputStream` 이 추상 데코레이터 이다.
+`FilterInputStream`을 상속받아 구현하는 `BufferedInputStream` 클래스들이 구상 데코레이터이다.
 `InputStream`을 상속받는 `FileInputStream` 같은 기반 스트림들은 데코레이터로 포장될 구상 구성요소 역할을 한다.
