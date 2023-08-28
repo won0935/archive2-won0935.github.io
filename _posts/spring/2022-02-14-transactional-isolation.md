@@ -1,16 +1,17 @@
 ---
 title: "@Transactional Isolation Level 정리"
 date: '2022-02-14'
-categories: [Spring, JPA]
+categories: [ Spring, JPA ]
 ---
 
 > JPA를 활용할 때, `@Transactional`의 각 옵션들에 대해 정확히 알고 사용하려고 한다.
-> 
+>
 > 따라서 각 기술에 대해 공부해보았다.
 
 ---
 
 # @Transactional(isolation= ?)
+
 - **Isolation**(트랜잭션 격리수준)이란 **동시에 실행**되는 트랜잭션이 **서로에게 영향을 미치지 않도록** 지정하는 옵션이다.
 
 ---
@@ -26,11 +27,10 @@ categories: [Spring, JPA]
 2. **Isolation.READ_COMMITTED**: 커밋된 읽기
 3. **Isolation.REPEATABLE_READ**: 반복 가능한 읽기
 4. **Isolation.SERIALIZABLE**: 직렬화 기능
- 
+
 ## Isolation.READ_UNCOMMITTED
 
 ![image](https://user-images.githubusercontent.com/55419159/153827234-276cd414-5af4-449d-9f6c-f068fddc2cc4.png)
-
 
 ```java
 @Transactional(isolation = Isolation.READ_UNCOMMITTED)
@@ -38,16 +38,15 @@ public void doSomething(){...}
 ```
 
 - 트랜잭션 A가 특정 컬럼 데이터를 변경하고 있는 중에(커밋하지 않은 상태) 트랜잭션 B가 read하면 트랜잭션 A가 변경한 데이터를 읽어온다.
-- 커밋되지 않는 읽기는 **Dirty Read**라는 문제가 있다. 
+- 커밋되지 않는 읽기는 **Dirty Read**라는 문제가 있다.
 - 이는 트랜잭션 A가 특정 컬럼 데이터를 변경하고 rollback 했을 때 발생한다.
 
-> Dirty Read란? 
-> 
+> Dirty Read란?
+>
 > 1. A 트랜잭션에서 10번 사원의 나이를 27살에서 28살로 바꿈
 > 2. 아직 커밋하지 않음
 > 3. B 트랜잭션에서 10번 사원의 나이를 조회함
 > 4. 28살이 조회됨
-
 
 ## Isolation.READ_COMMITTED
 
@@ -59,12 +58,12 @@ public void doSomething(){...}
 ```
 
 - 커밋된 데이터만 조회할 수 있어 Dirty read는 발생하지 않는다.
-- 트랜잭션 A가 특정 컬럼 데이터를 변경하고 있는 중에(커밋하지 않은 상태) 트랜잭션 B가 read하면 트랜잭션 A가 변경하기 전 데이터를 읽어온다. 
+- 트랜잭션 A가 특정 컬럼 데이터를 변경하고 있는 중에(커밋하지 않은 상태) 트랜잭션 B가 read하면 트랜잭션 A가 변경하기 전 데이터를 읽어온다.
 - 만약 트랜잭션 A가 데이터 변경 후 커밋하게 되면 트랜잭션 B는 변경된 데이터를 읽어온다.
 - 이 격리 수준 이하에선 **Non-Repeatable Read** 문제가 발생한다.
 
 > Non-Repeatable Read 란?
-> 
+>
 > 하나의 트랜잭션이 같은 값을 조회할 때 다른 값이 검색되는 현상
 
 
@@ -85,7 +84,7 @@ public void doSomething(){...}
 - 격리 수준 이하에서는 **Phantom Read** 문제가 발생한다.
 
 > Phantom Read 란?
-> 
+>
 > 한 트랜잭션 내에서 같은 쿼리를 두 번 수행 시, 첫 번째 쿼리에서 없던 레코드(유령, Phantom)가 두 번째 쿼리에서 발생하는 현상
 
 ##Isolation.SERIALIZABLE
@@ -100,8 +99,8 @@ public void doSomething(){...}
 - 그러나 동시 처리 성능이 가장 떨어진다.
 - 이 격리 수준에서는 위에서 언급했던 Dirty Read, Non-Repeatable Read, Phantom Read 와 같은 정합성 문제가 전혀 발생하지 않는다.
 
-
 ## 참고 : 각 DB별 기본 격리수준
+
 - **MYSQL** : `REPEATABLE READ`
 - **ORACLE** : `READ COMMITTED`
 - **H2** : `READ COMMITTED`
