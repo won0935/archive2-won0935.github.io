@@ -1,7 +1,7 @@
 ---
 title: "@Transactional 와 AOP"
 date: '2022-06-24'
-categories: [Spring, JPA]
+categories: [ Spring, JPA ]
 ---
 
 > 개발을 하며 `@Transactional`에 대해 잘못 사용하고 있는 경우가 있었다.
@@ -61,56 +61,59 @@ AOP란 Aspect Oriented Programming의 약자로 관점 지향 프로그래밍이
 
 ```java
 public interface TargetService {
-    void logic();
+  void logic();
 }
 
 @Service
 public class TargetServiceImpl implements TargetService {
-    @Override
-    public void logic() {
+  @Override
+  public void logic() {
 ...
-    }
+  }
 }
 ```
 
 Proxy에서 `Target` 전/후에 부가 기능을 처리하고 `Target`을 호출한다.
 
 ```java
+
 @Service
 public class TargetServiceProxy implements TargetService {
-    // 지금은 구현체를 직접 생성했지만, 외부에서 의존성을 주입 받도록 할 수 있다.
-    TargetService targetService = new TargetServiceImpl();
+  // 지금은 구현체를 직접 생성했지만, 외부에서 의존성을 주입 받도록 할 수 있다.
+  TargetService targetService = new TargetServiceImpl();
 ...
 
-    @Override
-    public void logic() {
-        // Target 호출 이전에 처리해야하는 부가 기능
+  @Override
+  public void logic() {
+    // Target 호출 이전에 처리해야하는 부가 기능
 
-        // Target 호출
-        targetService.logic();
+    // Target 호출
+    targetService.logic();
 
-        // Target 호출 이후에 처리해야하는 부가 기능
-    }
+    // Target 호출 이후에 처리해야하는 부가 기능
+  }
 }
 ```
 
 사용하는 입장에서는 `Target` 객체를 사용하는 것처럼 Proxy 객체를 사용할 수 있다.
 
 ```java
+
 @Service
 public class UseService {
-    // 지금은 구현체를 직접 생성했지만, 외부에서 의존성을 주입 받도록 할 수 있다.
-    TargetService targetService = new TargetServiceProxy();
+  // 지금은 구현체를 직접 생성했지만, 외부에서 의존성을 주입 받도록 할 수 있다.
+  TargetService targetService = new TargetServiceProxy();
 ...
 
-    public void useLogic() {
-        // Target 호출하는 것처럼 부가 기능이 추가된 Proxy를 호출한다.
-        targetService.logic();
-    }
+  public void useLogic() {
+    // Target 호출하는 것처럼 부가 기능이 추가된 Proxy를 호출한다.
+    targetService.logic();
+  }
 }
 ```
 
 ## JDK Proxy와 CGLib Proxy
+
 Spring에서는 몇 가지 설정을 하면 자동으로 `Target`의 프록시 객체를 생성해주는데, **JDK Proxy(Dynamic Proxy)**와 **CGLib Proxy**를 만들 수 있다.
 
 두 방식의 가장 큰 차이점은 `Target`의 어떤 부분을 상속 받아서 프록시를 구현하느냐에 있다.
@@ -118,11 +121,13 @@ Spring에서는 몇 가지 설정을 하면 자동으로 `Target`의 프록시 �
 ![image](https://user-images.githubusercontent.com/55419159/175801301-1af8e29f-4d05-4f0b-8fda-cfbc373dade0.png)
 
 ### JDK Proxy
+
 JDK Proxy는 `Target`의 상위 **인터페이스를 상속** 받아 프록시를 만든다.
 따라서 인터페이스를 구현한 클래스가 아니면 의존할 수 없다.
 `Target`에서 다른 구체 클래스에 의존하고 있다면, JDK 방식에서는 그 클래스(빈)를 찾을 수 없어 런타임 에러가 발생한다.
 
 ### CGLib Proxy
+
 CGLib Proxy는 `Target` **클래스를 상속** 받아 프록시를 만든다.
 JDK 방식과는 달리 인터페이스를 구현하지 않아도 되고, 구체 클래스에 의존하기 때문에 런타임 에러가 발생할 확률도 상대적으로 적다.
 또한 JDK Proxy는 내부적으로 Reflection을 사용해서 추가적인 비용이 들지만, CGLib는 그렇지 않다고 한다.
@@ -136,39 +141,38 @@ JDK 방식과는 달리 인터페이스를 구현하지 않아도 되고, 구체
 트랜잭션 처리를 위한 `@Transactional` 애노테이션은 **Spring AOP의 대표적인 예**이다.
 (**Spring은 JDK Proxy**, **Spring Boot는 CGLIb Proxy**를 기본으로 하기 때문에, 사용하는 것에 따라 생성된 프록시 객체 형태는 다를 수 있다.)
 
-
 ## @Transactional의 동작 순서
 
 ![image](https://user-images.githubusercontent.com/55419159/175801322-34c8e4d5-54b7-4691-84bb-3ee3aa700d3c.png)
 
-1. `Target`에 대한 호출이 들어오면 AOP proxy가 이를 가로채서(intercept) 가져온다. 
-2. AOP proxy에서 `Transaction Advisor`가 commit 또는 rollback 등의 트랜잭션 처리를 한다. 
-3. 트랜잭션 처리 외에 다른 부가 기능이 있을 경우 해당 `Custom Advisor`에서 그 처리를 한다. 
-4. 각 `Advisor`에서 부가 기능 처리를 마치면 `Target Method`를 수행한다. 
+1. `Target`에 대한 호출이 들어오면 AOP proxy가 이를 가로채서(intercept) 가져온다.
+2. AOP proxy에서 `Transaction Advisor`가 commit 또는 rollback 등의 트랜잭션 처리를 한다.
+3. 트랜잭션 처리 외에 다른 부가 기능이 있을 경우 해당 `Custom Advisor`에서 그 처리를 한다.
+4. 각 `Advisor`에서 부가 기능 처리를 마치면 `Target Method`를 수행한다.
 5. interceptor chain을 따라 caller에게 결과를 다시 전달한다.
 
 코드 레벨로 보자면 아래와 유사한 작업이 이루어진다.
 
 ```java
 public class TransactionProxy {
-    private final TransactonManager manager = TransactionManager.getInstance();
+  private final TransactonManager manager = TransactionManager.getInstance();
 ...
 
-    public void transactionLogic() {
-        try {
-            // 트랜잭션 전처리(트랜잭션 시작, autoCommit(false) 등)
-            manager.begin();
+  public void transactionLogic() {
+    try {
+      // 트랜잭션 전처리(트랜잭션 시작, autoCommit(false) 등)
+      manager.begin();
 
-            // 다음 처리 로직(타겟 비스니스 로직, 다른 부가 기능 처리 등)
-            target.logic();
+      // 다음 처리 로직(타겟 비스니스 로직, 다른 부가 기능 처리 등)
+      target.logic();
 
-            // 트랜잭션 후처리(트랜잭션 커밋 등)
-            manager.commit();
-        } catch (Exception e) {
-            // 트랜잭션 오류 발생 시 롤백
-            manager.rollback();
-        }
+      // 트랜잭션 후처리(트랜잭션 커밋 등)
+      manager.commit();
+    } catch (Exception e) {
+      // 트랜잭션 오류 발생 시 롤백
+      manager.rollback();
     }
+  }
 ```
 
 ## @Transactional 적용 예제
@@ -176,11 +180,10 @@ public class TransactionProxy {
 `@Transactional`이 프록시 방식으로 동작하는 것을 모른다면 실수하기 쉬운 부분들이 있다.
 여기서는 몇 가지 예제를 통해 그 부분을 짚고 넘어가고자 한다.
 
-
 1. `private` **메소드는 트랜잭션 처리를 할 수 없다.**
-앞서 트랜잭션이 코드 레벨에서 어떻게 동작하는지 대락적으로 살펴봤다. 
-프록시 객체는 타겟 객체/인터페이스를 상속 받아서 구현하는데, `private`으로 되어 있으면 **자식인 프록시 객체에서 호출할 수 없다**. 
-따라서 `@Transactional` 이 붙는 메서드, 클래스는 프록시 객체에서 접근 가능한 레벨로 지정해야 한다.
+   앞서 트랜잭션이 코드 레벨에서 어떻게 동작하는지 대락적으로 살펴봤다.
+   프록시 객체는 타겟 객체/인터페이스를 상속 받아서 구현하는데, `private`으로 되어 있으면 **자식인 프록시 객체에서 호출할 수 없다**.
+   따라서 `@Transactional` 이 붙는 메서드, 클래스는 프록시 객체에서 접근 가능한 레벨로 지정해야 한다.
 
 
 2. 트랜잭션은 객체 외부에서 **처음 진입하는 메서드를 기준**으로 동작한다.
@@ -192,52 +195,53 @@ public class TransactionProxy {
 - C 메서드도 A 메서드를 3번 호출한다. 하지만 C에는 트랜잭션이 적용되어 있다.
 
 ```java
+
 @Service
 public class TestService {
 
-    @Autowired
-    CouponGroupMapper couponGroupMapper;
+  @Autowired
+  CouponGroupMapper couponGroupMapper;
 
-    @Transactional
-    public void A(CouponGroupParam param) {
-        param.setStatus(CouponGroupStatus.CREATED);    // 상태 변경
-        couponGroupMapper.insertCouponGroup(param);
+  @Transactional
+  public void A(CouponGroupParam param) {
+    param.setStatus(CouponGroupStatus.CREATED);    // 상태 변경
+    couponGroupMapper.insertCouponGroup(param);
+  }
+
+  public void B() {
+    for (int i = 0; i < 3; i++) {
+      CouponGroupParam param = new CouponGroupParam();
+      param.setName("1000포인트 쿠폰");
+      param.setAmount(1000);
+      param.setMaxCount(100);
+      param.setValidFromDt(new Date());
+      param.setValidToDt(new Date());
+      param.setIssuerId("0101");
+      param.setCode("B000" + i);
+
+      A(param);
     }
 
-    public void B() {
-        for (int i = 0; i < 3; i++) {
-            CouponGroupParam param = new CouponGroupParam();
-            param.setName("1000포인트 쿠폰");
-            param.setAmount(1000);
-            param.setMaxCount(100);
-            param.setValidFromDt(new Date());
-            param.setValidToDt(new Date());
-            param.setIssuerId("0101");
-            param.setCode("B000" + i);
+    throw new RuntimeException(); // 오류 발생!
+  }
 
-            A(param);
-        }
+  @Transactional
+  public void C() {
+    for (int i = 0; i < 3; i++) {
+      CouponGroupParam param = new CouponGroupParam();
+      param.setName("1000 포인트 쿠폰");
+      param.setAmount(1000);
+      param.setMaxCount(100);
+      param.setValidFromDt(new Date());
+      param.setValidToDt(new Date());
+      param.setIssuerId("0101");
+      param.setCode("C000" + i);
 
-        throw new RuntimeException(); // 오류 발생!
+      A(param);
     }
 
-    @Transactional
-    public void C() {
-        for (int i = 0; i < 3; i++) {
-            CouponGroupParam param = new CouponGroupParam();
-            param.setName("1000 포인트 쿠폰");
-            param.setAmount(1000);
-            param.setMaxCount(100);
-            param.setValidFromDt(new Date());
-            param.setValidToDt(new Date());
-            param.setIssuerId("0101");
-            param.setCode("C000" + i);
-
-            A(param);
-        }
-
-        throw new RuntimeException(); // 오류 발생!
-    }
+    throw new RuntimeException(); // 오류 발생!
+  }
 }
 ```
 
@@ -245,9 +249,9 @@ B, C 메서드 모두 정상적인 경우라면 쿠폰 3개를 신규 생성한�
 그렇다면 B와 C 메서드는 동일한 기능을 한다고 볼 수 있을까?
 
 #### 쿠폰을 3개를 모두 생성한 뒤 오류가 발생했다고 가정해보자.
+
 B,C 메서드에서 호출하는 A 메서드에는 트랜잭션 처리가 되어있기 때문에, B,C 모두 3개의 쿠폰을 정상적으로 생성한다고 예상할 수도 있다.
 직접 코드를 실행했을 때의 결과는 다음과 같았다.
-
 
 #### 진입 메서드에 트랜잭션이 적용되어 있지 않은 경우 (B 메서드)
 
@@ -270,7 +274,7 @@ C 메서드도 B 메서드와 동일하게 쿠폰을 생성하는 3번의 쿼리
 클래스에 `@Transactional` 처리가 되어 있는 부분(A, C 메서드)이 있다면, Spring은 해당 부분에 트랜잭션 처리를 추가한 프록시를 자동으로 생성한다.
 그리고 외부에서 호출하면, 원래 클래스가 아닌 프록시가 대신 호출된다.
 
-1. C 메서드를 호출하면, `TestService`가 아닌 `TestService`의 프록시에 구현된 C 메서드가 대신 호출된다. 따라서 C와 C에서 호출하는 A 모두 프록시 객체에서 트랜잭션 처리를 해준다. 
+1. C 메서드를 호출하면, `TestService`가 아닌 `TestService`의 프록시에 구현된 C 메서드가 대신 호출된다. 따라서 C와 C에서 호출하는 A 모두 프록시 객체에서 트랜잭션 처리를 해준다.
 2. 하지만 B 메서드를 호출하는 것은 트랜잭션 처리가 되어 있지 않은 순수 B 메서드를 호출하는 것과 같다. 이때 B에서 호출하는 A 역시 트랜잭션 처리가 되어 있지 않다.
 
 결과적으로 트랜잭션은 **객체 외부에서 처음 진입하는 메서드를 기준으로 동작**한다는 사실을 알 수 있다.
@@ -278,6 +282,7 @@ C 메서드도 B 메서드와 동일하게 쿠폰을 생성하는 3번의 쿼리
 ---
 
 # 결론
+
 - **AOP는 흩어진 관심사를 별도의 클래스로 모듈화하는 프로그래밍 방법**을 말하며, OOP를 더욱 잘 지킬 수 있도록 도움을 준다.
 - **Spring AOP**는 **프록시** 객체를 자동으로 생성해주어, `Aspect`/`Advice`에 직접적으로 의존하지 않게 해준다.
 - `@Transactional` 도 Spring AOP 중 하나로 **프록시 방식**으로 동작한다.
