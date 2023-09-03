@@ -1,7 +1,7 @@
 ---
 title: "BeanPostProcessor"
 date: '2022-10-20'
-categories: [Spring, Core]
+categories: [ Spring, Core ]
 ---
 
 # BeanPostProcessor란
@@ -30,15 +30,15 @@ categories: [Spring, Core]
 ```java
 public interface BeanPostProcessor {
 
-	@Nullable
-	default Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-		return bean;
-	}
+  @Nullable
+  default Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+    return bean;
+  }
 
-	@Nullable
-	default Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-		return bean;
-	}
+  @Nullable
+  default Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+    return bean;
+  }
 
 }
 ```
