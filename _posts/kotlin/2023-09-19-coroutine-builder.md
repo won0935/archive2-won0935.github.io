@@ -69,9 +69,11 @@ fun main() = runBlocking {
 - callback을 이용하지 않고 **동기 방식**으로 코드를 작성할 수 있다.
 
 ### `async()` 주의 사항
+
 - `CoroutineStart.LAZY` 옵션을 사용하면, `start()` 함수를 호출해야 한다.
 
 #### `start()` 미사용
+
 - `await()` 함수를 호출했을 때 계산 결과를 계속 기다린다.(블로킹)
 
 ```kotlin
@@ -84,12 +86,14 @@ fun main(): Unit = runBlocking {
   printWithThread("소요시간 : $time ms")
 }
 ```
+
 ```shell
 // [main @coroutine#1] 3
 // [main @coroutine#1] 소요시간 : 2018 ms
 ```
 
 #### `start()` 사용
+
 - `start()` 함수를 호출해주어야 한다.(논블로킹)
 
 ```kotlin
@@ -104,6 +108,7 @@ fun main(): Unit = runBlocking {
   printWithThread("소요시간 : $time ms")
 }
 ```
+
 ```shell
 // [main @coroutine#1] 3
 // [main @coroutine#1] 소요시간 : 1018 ms
