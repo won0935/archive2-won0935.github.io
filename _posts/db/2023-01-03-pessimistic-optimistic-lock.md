@@ -13,13 +13,18 @@ categories: [DB, Lock]
 ## 동시성 이슈를 해결하는 방법
 
 1. **소스코드**
-  - `syncronized` 명령어
+
+- `syncronized` 명령어
+
 2. **데이터베이스**
-  - Pessimistic Lock(비관적 락)
-  - Optimisitic Lock(낙관적 락)
+
+- Pessimistic Lock(비관적 락)
+- Optimisitic Lock(낙관적 락)
+
 3. **레디스(Redis)**
-  - `Lettuce`
-  - `Redisson`
+
+- `Lettuce`
+- `Redisson`
 
 ---
 
@@ -102,6 +107,7 @@ class Stock(
 - 다른 트랜잭션이 해당 데이터를 변경하지 않을 경우 변경
 
 ### 주의사항
+
 - 낙관락 위배 시 `OptimisticLockException` 발생
 - **별도의 처리**가 필요함
 
@@ -138,6 +144,7 @@ class RedisLockRepository(
   }
 }
 ```
+
 ```kotlin
 @Component
 class LettuceLockStockFacade(
@@ -165,12 +172,12 @@ class LettuceLockStockFacade(
 
 - `pub-sub` 기반으로 분산락 구현
 
-
 #### 코드
 
 ```kotlin
 implementation("org.redisson:redisson:3.19.0") //redisson 라이브러리 추가
 ```
+
 ```kotlin
 @Component
 class RedissonLockStockFacade(
@@ -214,7 +221,7 @@ class RedissonLockStockFacade(
   - **별도의 라이브러리**를 사용해야한다
   - lock 을 라이브러리 차원에서 제공해주기 떄문에 사용법을 공부해야 한다
 
-
 ## 실무에서는 ?
+
 - 재시도가 필요하지 **않은** lock 은 `Lettuce` 활용
 - 재시도가 **필요한** 경우에는 `Redisson` 를 활용
