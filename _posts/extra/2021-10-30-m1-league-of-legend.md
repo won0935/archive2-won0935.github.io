@@ -1,7 +1,7 @@
 ---
 title: "m1 맥에서 144hz 롤하기"
 date: '2021-10-30'
-categories: [Extra, LOL]
+categories: [ Extra, LOL ]
 ---
 
 > 결론부터 말하면 롤 **설정 값**을 바꿔주면 **m1 macbook Air**로 *144hz 방어*가 가능하다.
@@ -9,11 +9,10 @@ categories: [Extra, LOL]
 
 ![](https://user-images.githubusercontent.com/55419159/139523580-e90497ce-2cab-444b-b137-c17ae0875f05.png)
 
-
 ## 테스트 스펙
+
 - macbook air m1(2020) 8g 256gb (깡통 맥북에어 옵션)
 - qhd 165hz 외장모니터
-
 
 ## 방법
 
@@ -21,18 +20,16 @@ categories: [Extra, LOL]
 
 ![](https://user-images.githubusercontent.com/55419159/139523689-d613a586-55f2-426c-9e10-09e776c04450.png)
 
-
 ### 2. 아래의 경로로 들어감
+
 - LoL/Config/game.cfg
 - 텍스트 에디터로 열기
 
 ![](https://user-images.githubusercontent.com/55419159/139523809-a896357e-4c3b-413a-8474-6fc4ec9ecca4.png)
 
-
 ### 3. [General] 마지막 항목에 "MetalBetaTest=true" 추가
 
 ![](https://user-images.githubusercontent.com/55419159/139523849-60136e47-3f6b-4ae4-b22d-15f066f4f16b.png)
-
 
 ## 결론
 
