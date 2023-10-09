@@ -155,7 +155,7 @@ class LettuceLockStockFacade(
   @Transactional
   fun decrease(id: Long, quantity: Long) {
 
-    while (!redisLockRepository.lock(id)){
+    while (!redisLockRepository.lock(id)) {
       Thread.sleep(100)  //락잡음
     }
 
