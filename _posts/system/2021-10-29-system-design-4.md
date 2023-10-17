@@ -25,13 +25,13 @@ tags: [ 면접 ]
 
 - 모든 키를 재배치함
 
-![](https://user-images.githubusercontent.com/55419159/138881514-e09e12fd-2764-40ee-9eef-2cf3a4a84f3f.png)
+![image](https://user-images.githubusercontent.com/55419159/138881514-e09e12fd-2764-40ee-9eef-2cf3a4a84f3f.png)
 
 ### 안정 해시
 
 - 이상이 있는 부분만 재배치
 
-![](https://user-images.githubusercontent.com/55419159/138881565-e60403c1-c98e-48ab-bb80-8a8c5f10320b.png)
+![image](https://user-images.githubusercontent.com/55419159/138881565-e60403c1-c98e-48ab-bb80-8a8c5f10320b.png)
 
 ---
 
