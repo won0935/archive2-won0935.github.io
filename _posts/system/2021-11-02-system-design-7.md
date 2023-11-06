@@ -48,7 +48,7 @@ tags: [ 면접 ]
 ![image](https://user-images.githubusercontent.com/55419159/141991101-f0657fa7-61da-4a9f-a90f-96a0b9223c44.png)
 
 이 접근법은 기본적으로 DB의 `auto_increment` 속성을 활용한다.
-1만큼 증가시키는 것이 아닌 `k`(DB의 숫자)만큼 증가시킨다.
+1만큼 증가시키는 것이 아닌 `k`(DB의 숫자)만큼 증가시킨다. 
 
 #### 단점
 
