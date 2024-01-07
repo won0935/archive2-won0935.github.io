@@ -101,6 +101,6 @@ Enhancer enhancer=new Enhancer();
   - [Spring 3.2](https://docs-stage.spring.io/spring/docs/current/spring-framework-reference/core.html#aop-api) 버전부터
     CGLib을 `Spring Core` 패키지에 포함시켜 더이상 의존성을 추가하지 않아도 개발할 수 있게 되었다.
 - `~~default` 생성자~~
-  - 4 버전에선 [Objensis 라이브러리](http://objenesis.org/) 의 도움을 받아 `default` 생성자 없이도 Proxy를 생성할 수 있게 되었다.
+  - 4 버전에선 [Objensis 라이브러리](http://objenesis.org) 의 도움을 받아 `default` 생성자 없이도 Proxy를 생성할 수 있게 되었다.
 - ~~타깃의 생성자 **두 번** 호출~~
   - 생성자가 2번 호출되던 상황도 개선되었다.

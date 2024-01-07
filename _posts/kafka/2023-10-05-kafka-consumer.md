@@ -117,7 +117,7 @@ val consumer = KafkaConsumer<String, String>(props)
 ```
 
 - 프로듀서 설정과 모두 동일
-- 딱 하나 다른 점은 [group.id](http://group.id) 를 부여한다는 점
+- 딱 하나 다른 점은 `group.id` 를 부여한다는 점
   - 해당 값은 특정 컨슈머 그룹마다 고유해야 함
 
 ### 4.3 토픽 구독하기
