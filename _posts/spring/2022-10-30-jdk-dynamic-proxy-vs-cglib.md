@@ -67,7 +67,7 @@ Enhancer enhancer=new Enhancer();
   Object proxy=enhancer.create(); // Proxy 생성
 ```
 
-다음과 같이 **CGlib**은 타깃의 **클래스를 상속**받아 다음 그림과 같이 Proxy를 생성해준다. 
+다음과 같이 **CGlib**은 타깃의 **클래스를 상속**받아 다음 그림과 같이 Proxy를 생성해준다.
 
 ![image](https://user-images.githubusercontent.com/55419159/199493261-63ee0a19-8947-4efe-878c-e525fcc3d5a4.png)
 
