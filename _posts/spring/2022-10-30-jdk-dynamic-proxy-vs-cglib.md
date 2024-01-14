@@ -73,7 +73,7 @@ Enhancer enhancer=new Enhancer();
 
 타깃 클래스를 상속받아 Proxy 생성
 
-이 과정에서 CGLib은 타깃 클래스에 포함된 **모든 메소드를 재정의**하여 Proxy를 생성한다.
+이 과정에서 CGLib은 타깃 클래스에 포함된 **모든 메소드를 재정의**하여 Proxy를 생성한다. 
 
 이 때문에 CGLib은 Final 메소드 또는 클래스에 대해 재정의를 할 수 없으므로 Proxy를 생성할 수 없다는 단점이 있다. 
 
