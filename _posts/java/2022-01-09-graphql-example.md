@@ -13,7 +13,7 @@ categories: [ Java, GraphQL ]
 
 ![image](https://user-images.githubusercontent.com/55419159/148671417-a7a7db95-e44c-4f9c-8723-4d5248bcdc67.png)
 
-- 클라이언트에서 작성하는 쿼리의 예시이다.
+- 클라이언트에서 작성하는 쿼리의 예시이다. 
 
 ```graphql
 query {
