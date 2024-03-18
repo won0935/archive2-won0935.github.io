@@ -16,7 +16,7 @@ tags: [ Nginx, Prometheus ]
 #### Data Source
 
 - 현재 실행되고 있는 각 시스템
-- fluentd(로그수집기), nginx(WS), spring-actuator(상태수집), kafka(MQ) 등
+- fluentd(로그수집기), nginx(WS), spring-actuator(상태수집), kafka(MQ) 등 
 
 #### Prometheus
 
