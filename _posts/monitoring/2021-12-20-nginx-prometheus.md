@@ -29,7 +29,7 @@ tags: [ Nginx, Prometheus ]
 - 매트릭을 시각화 하는 대쉬보드의 역할
 - [Grafana란?](https://play.grafana.org/d/000000012/grafana-play-home?orgId=1)
 
-### 🎨 다이어그램
+### 🎨 다이어그램 
 
 ![image](https://user-images.githubusercontent.com/55419159/146768389-a5d3e490-af48-4c14-ad2a-4f3bb0c73d65.png)
 
