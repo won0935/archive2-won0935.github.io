@@ -39,5 +39,5 @@ output plugin은 prometheus_output_monitor 사용해서
   </labels>
 </source>
 ```
-
+ 
 ![image](https://user-images.githubusercontent.com/55419159/146501339-561049d2-7f77-4dd0-8c37-8d1dc77be981.png)
