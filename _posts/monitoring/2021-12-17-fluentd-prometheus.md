@@ -18,7 +18,7 @@ Prometheus 플러그인은 총 6개를 제공
 ### ⚾ 샘플
 
 input plugin 은 promethues 사용해서
-server_ip:24231/metrics 를 리스닝 상태로 두고 
+server_ip:24231/metrics 를 리스닝 상태로 두고
 
 output plugin은 prometheus_output_monitor 사용해서
 10 초마다 promethues 에서 pull 해가도록 한다.
@@ -39,5 +39,5 @@ output plugin은 prometheus_output_monitor 사용해서
   </labels>
 </source>
 ```
- 
+
 ![image](https://user-images.githubusercontent.com/55419159/146501339-561049d2-7f77-4dd0-8c37-8d1dc77be981.png)
